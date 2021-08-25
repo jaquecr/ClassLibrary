@@ -16,29 +16,35 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@1
+  name: NugetInstallTool 
 
 - task: NuGetCommand@2
+  name: RestorePackages
   inputs:
     restoreSolution: '$(solution)'
 
 - task: VSBuild@1
+  name: BuildApplication
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
+  name: UnitTests
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
 - task: NuGetCommand@2
+  name: NugetPack
   inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj'
     versioningScheme: 'off'
 
 - task: PublishBuildArtifacts@1
+  name: PublishToDrop
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
