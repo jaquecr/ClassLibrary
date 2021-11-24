@@ -49,3 +49,11 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
+- task: NuGetCommand@2
+  name: PushPackages
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: 'c0383ab6-885c-4f6f-8fba-141596e0a968/b00e0038-6a5d-4e1f-8947-ccd37e94a668'
